@@ -179,9 +179,19 @@ class Controller {
         return 0;
     }
 
+    _isMutationFrame(stage)
+    {
+        if (this._previousFrameComplexity(this._sampler.samples, this._sampler.sampleCount) != stage.complexity())
+            return true;
+        if (this._previousFrameComplexity(this._sampler.samples, this._sampler.sampleCount - 1) != stage.complexity())
+            return true;
+
+        return false;
+    }
+
     update(timestamp, stage)
     {
-        const frameType = this._previousFrameComplexity(this._sampler.samples, this._sampler.sampleCount) != stage.complexity() ? Strings.json.mutationFrameType : Strings.json.animationFrameType
+        const frameType = this._isMutationFrame(stage) ? Strings.json.mutationFrameType : Strings.json.animationFrameType
         var lastFrameLength = timestamp - this._previousTimestamp;
         this._previousTimestamp = timestamp;
 
