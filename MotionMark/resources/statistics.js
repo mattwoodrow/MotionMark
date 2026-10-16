@@ -270,6 +270,8 @@ class Regression {
     _windowedFit(samples, desiredFrameLength, windowSize, strict)
     {
         const kAllowedErrorFactor = 0.9;
+        // A zero complexity would make the suite's geometric mean zero.
+        const kMinimumComplexity = 1;
 
         const complexityIndex = 0;
         const frameLengthIndex = 1;
@@ -288,7 +290,7 @@ class Regression {
             sortedSamples.sort(compareSamples);
 
         var bestIndex = 0;
-        var bestComplexity = 0;
+        var bestComplexity = kMinimumComplexity;
 
         // Maintain running sums over the window so each step is O(1).
         var windowFrameLengthSum = 0.0;
